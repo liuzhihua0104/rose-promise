@@ -15,16 +15,19 @@
 </html>
 <script>
     let p = new HD((resolve, reject) => {
-        resolve("解决");
+        setTimeout(() => {
+            resolve("解决");
+
+        }, 1000)
         // reject("rejected");
     })
 
-    p.then(value=>{
+    p.then(value => {
         console.log(value);
-        
-    },reason=>{
+
+    }, reason => {
         console.log(reason);
-        
+
     })
     console.log("后盾人");
 

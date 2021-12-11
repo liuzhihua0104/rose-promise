@@ -7,6 +7,7 @@ class HD {
         this.status = HD.PENDING;
         this.value = null;
 
+        this.callbacks = []; //防止new时里面设置定时器
         // 防止报错，比如用了一个不存在的变量
         try {
             executor(this.resolve.bind(this), this.rejected.bind(this))
@@ -22,6 +23,9 @@ class HD {
         if (this.status == HD.PENDING) {
             this.status = HD.FULFILLED;
             this.value = value;
+            this.callbacks.map(callback => {
+                callback.onFulfiled(value)
+            })
         }
 
     }
@@ -30,6 +34,9 @@ class HD {
         if (this.status == HD.PENDING) {
             this.status = HD.REJECTED;
             this.value = reason;
+            this.callbacks.map(callback => {
+                callback.onRejected(reason)
+            })
         }
 
     }
@@ -50,6 +57,14 @@ class HD {
 
             }
         }
+        // new 里面是一个异步，如setTimeout
+        if (this.status == HD.PENDING) {
+            this.callbacks.push({
+                onFulfiled,
+                onRejected
+            })
+        }
+
         if (this.status == HD.FULFILLED) {
 
             setTimeout(() => {
