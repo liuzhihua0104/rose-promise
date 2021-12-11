@@ -10,11 +10,11 @@ class HD {
     }
 
     resolve(value) {
-this.status=HD.FUFILLED;
-this.value=value;
+        this.status = HD.FUFILLED;
+        this.value = value;
     }
     rejected(reason) {
-this.status=HD.REJECTED;
-this.value=reason;
+        this.status = HD.REJECTED;
+        this.value = reason;
     }
 }
