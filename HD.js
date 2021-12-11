@@ -51,10 +51,23 @@ class HD {
             }
         }
         if (this.status == HD.FULFILLED) {
-            onFulfiled(this.value)
+
+            try{
+                onFulfiled(this.value)
+
+            }catch(error){
+                onRejected(error)
+            }
         }
         if(this.status==HD.REJECTED){
-            onRejected(this.value)
+  
+
+            try{
+                onRejected(this.value)
+
+            }catch(error){
+                onRejected(error)
+            }
         }
 
     }

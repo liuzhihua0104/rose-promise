@@ -16,9 +16,17 @@
 <script>
     let p = new HD((resolve, reject) => {
         resolve("解决");
-        reject("rejected");
+        // reject("rejected");
     })
-    console.log(p);
+
+    p.then(value=>{
+        console.log(value);
+        
+    },reason=>{
+        console.log(reason);
+        
+    })
+    console.log("后盾人");
 
 
 </script>
