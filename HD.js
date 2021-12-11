@@ -1,18 +1,25 @@
 class HD {
     static PENDING = "pending"; // 准备状态
-    static FUFILLED = "fufilled"; // 成功
+    static FULFILLED = "fulfilled"; // 成功
     static REJECTED = "rejected"; // 拒绝
 
     constructor(executor) {
         this.status = HD.PENDING;
         this.value = null;
-        executor(this.resolve.bind(this), this.rejected.bind(this))
+
+        // 防止报错，比如用了一个不存在的变量
+        try {
+            executor(this.resolve.bind(this), this.rejected.bind(this))
+        } catch (error) {
+            this.rejected("err")
+        }
+
     }
 
     resolve(value) {
         // 不允许再次改变状态
         if (this.status == HD.PENDING) {
-            this.status = HD.FUFILLED;
+            this.status = HD.FULFILLED;
             this.value = value;
         }
 
