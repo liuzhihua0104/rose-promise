@@ -14,6 +14,7 @@ class HD {
             this.rejected("err")
         }
 
+
     }
 
     resolve(value) {
@@ -29,6 +30,31 @@ class HD {
         if (this.status == HD.PENDING) {
             this.status = HD.REJECTED;
             this.value = reason;
+        }
+
+    }
+
+
+    // 成功的回调、失败的回调
+    then(onFulfiled, onRejected) {
+
+        // 回调函数不是function时封装一个函数
+        if(typeof onFulfiled!="function"){
+            onFulfiled=()=>{
+
+            }
+        }
+
+        if(typeof onRejected!="function"){
+            onRejected=()=>{
+                
+            }
+        }
+        if (this.status == HD.FULFILLED) {
+            onFulfiled(this.value)
+        }
+        if(this.status==HD.REJECTED){
+            onRejected(this.value)
         }
 
     }
