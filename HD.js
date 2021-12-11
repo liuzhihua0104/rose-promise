@@ -39,35 +39,40 @@ class HD {
     then(onFulfiled, onRejected) {
 
         // 回调函数不是function时封装一个函数
-        if(typeof onFulfiled!="function"){
-            onFulfiled=()=>{
+        if (typeof onFulfiled != "function") {
+            onFulfiled = () => {
 
             }
         }
 
-        if(typeof onRejected!="function"){
-            onRejected=()=>{
-                
+        if (typeof onRejected != "function") {
+            onRejected = () => {
+
             }
         }
         if (this.status == HD.FULFILLED) {
 
-            try{
-                onFulfiled(this.value)
+            setTimeout(() => {
+                try {
+                    onFulfiled(this.value)
 
-            }catch(error){
-                onRejected(error)
-            }
+                } catch (error) {
+                    onRejected(error)
+                }
+            })
+
         }
-        if(this.status==HD.REJECTED){
-  
+        if (this.status == HD.REJECTED) {
 
-            try{
-                onRejected(this.value)
+            setTimeout(() => {
+                try {
+                    onRejected(this.value)
 
-            }catch(error){
-                onRejected(error)
-            }
+                } catch (error) {
+                    onRejected(error)
+                }
+            })
+
         }
 
     }
