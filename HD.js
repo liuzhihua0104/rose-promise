@@ -60,8 +60,23 @@ class HD {
         // new 里面是一个异步，如setTimeout
         if (this.status == HD.PENDING) {
             this.callbacks.push({
-                onFulfiled,
-                onRejected
+                onFulfiled: value => {
+                    try {
+                        onFulfiled(value)
+                    }
+                    catch (error) {
+                        onRejected(error)
+                    }
+                }
+                ,
+                onRejected: value => { 
+                    try {
+                        onRejected(value)
+                    }
+                    catch (error) {
+                        onRejected(error)
+                    }
+                 }
             })
         }
 
