@@ -15,22 +15,20 @@
 </html>
 <script>
     let p = new HD((resolve, reject) => {
-        setTimeout(() => {
-            resolve("解决");
 
-        }, 1000)
-        // reject("rejected");
+        setTimeout(() => {
+            reject("拒绝");
+            console.log("湘军大叔");
+        })
+
     })
 
     p.then(value => {
         console.log(value);
-        console.log(abc);
-        
+
 
     }, reason => {
-        console.log("error");
-        console.log(eee);
-
+        console.log(reason);
     })
     console.log("后盾人");
 

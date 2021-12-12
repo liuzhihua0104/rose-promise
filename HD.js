@@ -23,9 +23,13 @@ class HD {
         if (this.status == HD.PENDING) {
             this.status = HD.FULFILLED;
             this.value = value;
-            this.callbacks.map(callback => {
-                callback.onFulfiled(value)
-            })
+
+            setTimeout(() => {
+                this.callbacks.map(callback => {
+                    callback.onFulfiled(value)
+                })    
+            });
+          
         }
 
     }
@@ -34,9 +38,13 @@ class HD {
         if (this.status == HD.PENDING) {
             this.status = HD.REJECTED;
             this.value = reason;
-            this.callbacks.map(callback => {
-                callback.onRejected(reason)
+
+            setTimeout(()=>{
+                this.callbacks.map(callback => {
+                    callback.onRejected(reason)
+                })
             })
+         
         }
 
     }
