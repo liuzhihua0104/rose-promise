@@ -17,18 +17,25 @@
     let p = new HD((resolve, reject) => {
 
         setTimeout(() => {
-            reject("拒绝");
-            console.log("湘军大叔");
+            // reject("拒绝");
+            resolve("解决")
+            // console.log("湘军大叔");
         })
 
     })
 
     p.then(value => {
         console.log(value);
-
+        return "湘军大叔"
 
     }, reason => {
         console.log(reason);
+        return "p2"
+    }).then(value => {
+        console.log("success" + value);
+
+    }, reason => {
+        console.log(reason)
     })
     console.log("后盾人");
 

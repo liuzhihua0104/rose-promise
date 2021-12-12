@@ -27,9 +27,9 @@ class HD {
             setTimeout(() => {
                 this.callbacks.map(callback => {
                     callback.onFulfiled(value)
-                })    
+                })
             });
-          
+
         }
 
     }
@@ -39,12 +39,12 @@ class HD {
             this.status = HD.REJECTED;
             this.value = reason;
 
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.callbacks.map(callback => {
                     callback.onRejected(reason)
                 })
             })
-         
+
         }
 
     }
@@ -65,53 +65,60 @@ class HD {
 
             }
         }
-        // new 里面是一个异步，如setTimeout
-        if (this.status == HD.PENDING) {
-            this.callbacks.push({
-                onFulfiled: value => {
-                    try {
-                        onFulfiled(value)
+        return new HD((resolve, rejected) => {
+            // new 里面是一个异步，如setTimeout
+            if (this.status == HD.PENDING) {
+                this.callbacks.push({
+                    onFulfiled: value => {
+                        try {
+                            let result = onFulfiled(value)
+                            resolve(result)
+                        }
+                        catch (error) {
+                            onRejected(error)
+                        }
                     }
-                    catch (error) {
+                    ,
+                    onRejected: value => {
+                        try {
+                            let result = onRejected(value)
+    
+                            resolve(value)
+                        }
+                        catch (error) {
+                            onRejected(error)
+                        }
+                    }
+                })
+            }
+
+            if (this.status == HD.FULFILLED) {
+
+                setTimeout(() => {
+                    try {
+                        let result = onFulfiled(this.value)
+                        this.resolve(result)
+                    } catch (error) {
+                        onRejected(error)
+                    } 
+                })
+
+            } 
+            if (this.status == HD.REJECTED) {
+
+                setTimeout(() => {
+                    try {
+                        let result =   onRejected(this.value)
+                        resolve(result)
+
+                    } catch (error) {
                         onRejected(error)
                     }
-                }
-                ,
-                onRejected: value => { 
-                    try {
-                        onRejected(value)
-                    }
-                    catch (error) {
-                        onRejected(error)
-                    }
-                 }
-            })
-        }
+                })
 
-        if (this.status == HD.FULFILLED) {
+            }
+        })
 
-            setTimeout(() => {
-                try {
-                    onFulfiled(this.value)
-
-                } catch (error) {
-                    onRejected(error)
-                }
-            })
-
-        }
-        if (this.status == HD.REJECTED) {
-
-            setTimeout(() => {
-                try {
-                    onRejected(this.value)
-
-                } catch (error) {
-                    onRejected(error)
-                }
-            })
-
-        }
 
     }
 }
