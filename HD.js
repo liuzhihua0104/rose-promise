@@ -56,12 +56,13 @@ class HD {
         // 回调函数不是function时封装一个函数
         if (typeof onFulfiled != "function") {
             onFulfiled = () => {
-
+                return this.value
             }
         }
 
         if (typeof onRejected != "function") {
             onRejected = () => {
+                return this.value
 
             }
         }
@@ -82,7 +83,7 @@ class HD {
                     onRejected: value => {
                         try {
                             let result = onRejected(value)
-    
+
                             resolve(value)
                         }
                         catch (error) {
@@ -97,18 +98,25 @@ class HD {
                 setTimeout(() => {
                     try {
                         let result = onFulfiled(this.value)
-                        this.resolve(result)
+                        // 防止返回promise完整对象
+                        if (result instanceof HD) {
+                            result.then(value => {
+                                resolve(value)
+                            })
+                        } else {
+                            resolve(result)
+                        }
                     } catch (error) {
                         onRejected(error)
-                    } 
+                    }
                 })
 
-            } 
+            }
             if (this.status == HD.REJECTED) {
 
                 setTimeout(() => {
                     try {
-                        let result =   onRejected(this.value)
+                        let result = onRejected(this.value)
                         resolve(result)
 
                     } catch (error) {

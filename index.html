@@ -16,28 +16,19 @@
 <script>
     let p = new HD((resolve, reject) => {
 
-        setTimeout(() => {
-            // reject("拒绝");
-            resolve("解决")
-            // console.log("湘军大叔");
-        })
+        // setTimeout(() => {
+        // reject("拒绝");
+        resolve("解决")
+        // console.log("湘军大叔");
+        // })
 
-    })
-
-    p.then(value => {
-        console.log(value);
-        return "湘军大叔"
-
-    }, reason => {
-        console.log(reason);
-        return "p2"
     }).then(value => {
-        console.log("success" + value);
+        return new HD(resolve => {
+            resolve("湘军大叔")
+        })
+    }).then(value => {
+        console.log(value);
 
-    }, reason => {
-        console.log(reason)
     })
-    console.log("后盾人");
-
 
 </script>
